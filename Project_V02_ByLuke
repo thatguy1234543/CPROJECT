@@ -1,0 +1,219 @@
+#include <stdio.h>
+
+//Functions relating to multiplayer game
+void modelH();
+void modelHDay();
+void modelHNight();
+
+//Functions relating to single player game
+void singleH();
+void singleHDay();
+void singleHNight();
+
+//Functions relating to your apartment
+void home();
+void christopher();
+
+int main() {
+    int risk;
+    int partner;
+    
+    //Introduction to the game
+    printf("The following is a choose-your-own-adventure game.\n");
+    printf("The possibilities are endless.\n\n");
+    printf("A few notes before we start:\n");
+    printf("    1. Anytime a question is asked, a valid answer must be given or I will choose for you\n");
+    printf("    2. You cannot go back, make sure the decision you make is what you want because it might not be available later\n");
+    printf("    3. There are no savepoints. If your character dies, you either restart or stop playing\n\n\n");
+
+    //Explaining the plot and giving the user their first decision
+    printf("You are an amateur photographer who has recently found the perfect location for a shoot.\n");
+    printf("Unfortunately, the location is frequented by police and you do not have a permit to shoot there.\n");
+    printf("Right now you are late on rent by a week and there is an art gallery coming up soon.\n");
+    printf("The pictures taken at this location will be perfect for the gallery and means you will have money for rent.\n");
+    printf("Will you take the risk or just hope that things work out (1 = take the risk; 0 = hope things work out)? ");
+    scanf("%d", &risk);
+
+    //Nested if/else statement that moves the story depending on what the user entered
+    if (risk == 1) {
+        printf("\n\nFor the shoot, would you like to have a model there with you? Or do you want to work alone (1 = partner; 0 = alone)?");
+        scanf("%d", &partner);
+            if (partner == 1) {
+                printf("The models name is Anya.\n");
+                printf("She has very little experience in the modeling industry, but she is cheap and her schedule works best with yours.\n");
+                modelH(); }
+            else if (partner == 0) {
+                singleH(); }
+            else {
+                printf("\n\n\nYou receive a text message from your friend.\n");
+                printf("She says that the previous model you worked with talked about your improfessional behavior to everyone\n");
+                printf("No models want to work with you even though the model is lying.");
+                singleH(); } }
+    else if (risk == 0) {
+        printf("\n\n\nYou head back to your apartment.");
+        home(); }
+    else {
+        printf("\n\n\nYour girlfriend, Sara, sends you a text message.\n");
+        printf("She states that the landlord, Christopher, is at your door yelling for rent.\n");
+        printf("He states that if he doesn't have his money by the end of the day, he is evicting you.\n");
+        printf("Sara tells you to get money no matter what. You are doing the shoot. No models are available so you must do it alone.\n");
+        singleH(); }
+    return 0;
+}
+
+void modelH() {
+    char dorN;
+    
+    printf("\n\nDo you want to go during the day or night (n = night; d = day)? ", dorN);
+    scanf(" %c", &dorN);
+
+    if (dorN == 'D' || dorN == 'd') {
+        modelHDay(); }
+    else if (dorN == 'N' || dorN == 'n') {
+        modelHNight(); }
+    else {
+        printf("\nBy the time you make up your mind it is already too late. You have to go at night.\n");
+        modelHNight(); }
+}
+
+void singleH() {
+    char dorN;
+
+    printf("Do you want to go during the day or the night (n = night; d = day)? ");
+    scanf(" %c", &dorN);
+
+    if (dorN == 'D' || dorN == 'd') {
+        singleHDay(); }
+    else if (dorN == 'N' || dorN == 'n') {
+        singleHNight(); }
+    else {
+        printf("\nBy the time you make up your mind it is already too late. You have to go at night.\n");
+        singleHNight(); }
+}
+
+void modelHDay() {
+    printf("SHIT\n"); }
+
+void modelHNight() {
+    printf("TEST\n"); }
+
+void singleHDay() {
+    printf("HELLO\n"); }
+
+void singleHNight() {
+    printf("GOODBYE\n"); }
+
+void home() {
+    char yOrN;
+
+    printf("\n\n\nBack at your apartment you rest on the couch.\n");
+    printf("You are searching through your laptop for pictures that could go in the gallery.\n");
+    printf("While searching, you notice a picture of your girlfriend taken a while back.\n");
+    printf("This photo was taken on your 1 year anniversary.\n");
+    printf("In the picture, she can be seen facing away from the camera on a bridge.\n");
+    printf("The sun is setting at the time, making the photo an almost pseudo-silhoutte style.\n");
+    printf("The colors in the sky are shining off of her red hair that is dancing in the wind.\n");
+    printf("The picture does not have much special in it. It is nothing new, but it is a good shot.\n");
+    printf("Should you try submitting this to the art gallery (y = yes; n = no)?");
+    scanf(" %c", &yOrN); 
+
+    if (yOrN == 'y') {
+        printf("\n\nYou send the photo into PhotoShop to do some work on it to make it gallery ready.\n"); }
+    else if (yOrN == 'n') {
+        printf("\n\nYou close your laptop, feeling defeated and questioning your talent in the field.\n");
+        printf("As you do this, you hear keys rattling in the door.\n");
+        printf("You quickly open up your laptop to appear as though you are doing work\n");
+        printf("Sara walks into the room and gives you a smile.\n");
+        printf("She asks if you have decided if you will shoot at the location or not.\n");
+        printf("Do you tell her (y = yes; n = no)?");
+        scanf(" %c", &yOrN); 
+        
+        //Nested if-else statement
+        if (yOrN == 'y') {
+            printf("\n\nSara becomes irritated and passive aggressive about it.\n");
+            printf("She scoffs at you, you get up and follow her into the kitchen.\n");
+            printf("Placing your arms around her waist, you attempt to kiss her, but she pushes you away.\n");
+            printf("Do you ask her what's wrong (y = yes; n = no)?");
+            scanf(" %c", &yOrN);
+        
+            //Nested if-else statement in a nested if-else
+            if (yOrN == 'y') {
+                printf("\n\nSara spins around at you and raises her voice. She says the following: \n");
+                printf("    'Nothing is wrong. Nothing at all. Except for the fact that I have apparently'\n");
+                printf("    'been wasting the last year and a half of my life with someone who doesn't give a shit about me'\n");
+                printf("You attempt to interject, but she cuts you off.\n");
+                printf("    'I thought that photography was all about risk. Taking a big risk for the shot.'\n");
+                printf("    'No wonder you are an amateur. You don't even have the balls to go for a photoshoot.'\n");
+                printf("    'That's all you're ever going to be is an amateur.'\n");
+                printf("At this, she reveals that she has been cheating on you for the past month and that she doesn't love you anymore.\n");
+                printf("She says that she is unhappy and doesn't want to be with you anymore.\n"); }
+            else if (yOrN == 'n') {
+                printf("\n\nSara spins around at says the following: \n");
+                printf("    'Typical. I don't know why I would have expected you to have the balls to confront me.'\n");
+                printf("    'Especially when you can't even take a fucking picture! You're worthless and pathetic.'\n");
+                printf("Sara walks out the door after this, leaving you in the apartment all alone.\n");
+                christopher(); }
+            else {
+                printf("\n\nSara screams at you to stop being so passive. She breaks down saying how much you have made her hate her life.\n");
+                printf("That she dreads coming home to you everyday because you can never give her a straight answer.\n");
+                printf("She says that she has been cheating on you for the past year and breaks up with you."); } }
+
+        else if(yOrN == 'n') {
+            printf("\n\nSara says the following: \n");
+            printf("    'You're a shit liar, you know?'\n");
+            printf("    'Never once in this entire relationship have you gotten away with lying, so why try now?'\n");
+            printf("    'You're so transparant that it's actually sad. You will never be able to get away with lying.'\n");
+            printf("    'I saw right through you when you said you didn't sleep with that whore model you were shooting.'\n");
+            printf("    'Jesus, if you're going to bullshit me you should at least be good at it.'\n");
+            printf("After this, Sara walks out and slams the door behind her.");
+            printf("A picture of the two of you together falls to the ground and breaks the frame.\n");
+
+            christopher(); }
+
+        else {
+            printf("\n\nSara stabs you. You die.\n"); } }
+    else {
+        printf("\n\n\nYour computer explodes. The shrapnel impales you and you die.\n"); }
+}
+
+void christopher() {
+    char door;
+
+    printf("\n\n\nYour landlord, Christopher, starts banging on your door and yells at you for rent.\n");
+    printf("He says that this is the last time he will ever accept a late payment and that next time he will evict you.\n");
+    printf("He says he knows you are in there and asks you to open up.\n");
+    printf("Do you open the door (y = yes; n = no)?");
+    scanf(" %c", &door);
+
+    if (door == 'y') {
+        printf("You open the door, looking distraught and he yells at you for the money.\n");
+        printf("You say you don't have it, but he says that if he doesn't get paid by the end of the week (when the art gallery is) he will evict you.\n");
+        printf("You say okay and promise to have his money by then.\n"); }
+    else if (door == 'n') {
+        printf("He yells that if he doesn't get his money by the end of the week, he is evicting you.\n"); }
+    else {
+        printf("He yells that you are being evicted and that you have an hour to get off the premises.\n");
+        printf("He walks away after this.\n"); }
+}
+
+void nighttime() {
+    int bar_sleep;
+    printf("\n\n\nDistraught about the revelations regarding Sara's infidelity, and having no way to pay Christopher, you decide that you need to take your mind off of things.\n");
+    printf("How do you approach the situation? Will you go to bed, or go to the bar to get a few drinks? (1 = go to bed, 0 = go to bar)\n");
+    
+    if (bar_sleep == 1) {
+        printf("You heat up some tea and go to your bed to drink it slowly before going to sleep.\n");
+        printf("As you are sipping, you contemplate how you will be able to get the money to Christopher in the next few days.\n");
+        printf("You fear the worst-case scenario, with Christopher kicking you out and Sara dumping you.\n"); 
+        printf("You start to shed a tear thinking about Sara, and all of the memories that you have made with her throughout the time you both have been together.\n"); 
+        printf("All of those times you both had stability, comfort, and fun. However, all of that could very well be gone in the next 24 hours if you do not accomplish your mission.\n");
+        printf("You try to go to sleep after finishing your tea, but a terrible image of your dead body lying in front of your apartment door keeps you awake for a while.\n");
+        printf("On the outside, you seem to be cool and collected; but on the inside, fear, anxiety, and panic have completely taken over your soul. You eventually fall alseep, but it past midnight by the time you do.\n");
+    }
+    else {
+        printf(""); }      
+        
+       
+
+
+}
