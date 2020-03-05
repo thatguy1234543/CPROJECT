@@ -208,6 +208,14 @@ void nighttime() {
         printf("You start to shed a tear thinking about Sara, and all of the memories that you have made with her throughout the time you both have been together.\n"); 
         printf("All of those times you both had stability, comfort, and fun. However, all of that could very well be gone in the next 24 hours if you do not accomplish your mission.\n");
         printf("You try to go to sleep after finishing your tea, but a terrible image of your dead body lying in front of your apartment door keeps you awake for a while.\n");
+        printf("You decide to take a shot of whiskey in hopes of it helping you fall asleep.\n");
+        int x=1;
+        int y=0;
+
+        for (x==1; x!=0; y++) {
+            printf("You feel the warm whiskey begin to dumb your senses Do you want to take another shot (1=yes; 0=no)?");
+            scanf("%d", &x); } }
+
         printf("On the outside, you seem to be cool and collected; but on the inside, fear, anxiety, and panic have completely taken over your soul. You eventually fall alseep, but it past midnight by the time you do.\n");
     }
     else {
