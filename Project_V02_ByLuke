@@ -9,7 +9,6 @@ void modelHNight();
 void singleH();
 void singleHDay();
 void singleHNight();
-//this is a test
 
 //Functions relating to your apartment
 void home();
