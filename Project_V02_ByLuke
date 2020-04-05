@@ -1,18 +1,20 @@
 #include <stdio.h>
+#include <string.h>
 
 //Functions relating to multiplayer game
 void modelH();
-void modelHDay();
-void modelHNight();
 
 //Functions relating to single player game
 void singleH();
-void singleHDay();
-void singleHNight();
 
 //Functions relating to your apartment
 void home();
 void christopher();
+
+//Ending Functions
+void goodEnding();
+void death();
+void caught();
 
 int main() {
     int risk;
@@ -23,8 +25,13 @@ int main() {
     printf("The possibilities are endless.\n\n");
     printf("A few notes before we start:\n");
     printf("    1. Anytime a question is asked, a valid answer must be given or I will choose for you\n");
+    printf("        1a. This means you MUST enter your choice exactly as we dictate. Don't deviate and do a capital letter instead.\n");
+    printf("        1b. To test how well you are paying attention, we will change up the answering style every once in a while.\n");
     printf("    2. You cannot go back, make sure the decision you make is what you want because it might not be available later\n");
     printf("    3. There are no savepoints. If your character dies, you either restart or stop playing\n\n\n");
+    
+    //Opening a file to place the users decisions into
+    FILE *file = fopen("CYOADecisions.txt", "w");
 
     //Explaining the plot and giving the user their first decision
     printf("You are an amateur photographer who has recently found the perfect location for a shoot.\n");
@@ -36,72 +43,139 @@ int main() {
 
     //Nested if/else statement that moves the story depending on what the user entered
     if (risk == 1) {
+        fprintf(file, "You chose to risk it and go for the photoshoot.\n");
         printf("\n\nFor the shoot, would you like to have a model there with you? Or do you want to work alone (1 = partner; 0 = alone)?");
         scanf("%d", &partner);
             if (partner == 1) {
                 printf("The models name is Anya.\n");
                 printf("She has very little experience in the modeling industry, but she is cheap and her schedule works best with yours.\n");
+                fprintf(file, "You chose to shoot with a model.\n");
                 modelH(); }
             else if (partner == 0) {
+                fprintf(file, "You chose to shoot on your own.\n");
                 singleH(); }
             else {
                 printf("\n\n\nYou receive a text message from your friend.\n");
                 printf("She says that the previous model you worked with talked about your improfessional behavior to everyone\n");
                 printf("No models want to work with you even though the model is lying.");
+                fprintf(file, "You didn't follow the instructions. We chose to let you shoot alone.\n");
                 singleH(); } }
     else if (risk == 0) {
         printf("\n\n\nYou head back to your apartment.");
+        fprintf(file, "You chose to not take the risk.\n");
         home(); }
     else {
         printf("\n\n\nYour girlfriend, Sara, sends you a text message.\n");
         printf("She states that the landlord, Christopher, is at your door yelling for rent.\n");
         printf("He states that if he doesn't have his money by the end of the day, he is evicting you.\n");
         printf("Sara tells you to get money no matter what. You are doing the shoot. No models are available so you must do it alone.\n");
+        fprintf(file, "You didn't follow instructions. We chose to make you go on the shoot alone.\n");
         singleH(); }
     return 0;
 }
 
 void modelH() {
-    char dorN;
+    int cheat;
     
-    printf("\n\nDo you want to go during the day or night (n = night; d = day)? ", dorN);
-    scanf(" %c", &dorN);
+    printf("\n\n\nYou and Anya set out to the location of the shoot.\n");
+    printf("Once you arrive, it seems rather desolate. No cops are around as of now. It's the perfect time to start shooting.\n");
+    printf("You exit your car and start setting up your camera to take a few test shots.\n");
+    printf("As you do this, Anya comes over to you and attempts to kiss you. Do you cheat on your girlfriend with Anya (1=yes; 0=no)?");
+    scanf("%d", &cheat);
 
-    if (dorN == 'D' || dorN == 'd') {
-        modelHDay(); }
-    else if (dorN == 'N' || dorN == 'n') {
-        modelHNight(); }
+    if (cheat == 1) {
+        fprintf(file, "You cheat on your girlfriend.\n");
+        printf("\n\nYou allow Anya to start kissing you. In fact, you kiss her back.\n");
+        printf("You start to think of Sara. Just as you start to think of her, your phone rings.\n");
+        printf("She knows that you are at a shoot, if you don't pick up she will be mad. You shush Anya and pick up the phone.\n");
+        printf("Sara says the following:\n");
+        printf("    'Hey, I am on my way home from work and I wanted to know if I should stop for anything. I know you're at a shoot now, but I can stop by.'\n");
+        printf("As Sara finishes her sentence, Anya coughs. You stare at her in anger. She mouths an apology.\n");
+        printf("Sara heard this and knew what was happening.\n");
+        printf("    'Are you kidding me? Are you serious? You're really doing this to me again?!'\n");
+        printf("You try to explain yourself, but she interrupts you.\n");
+        printf("    'Don't bother. Go have dinner with whoever it is this time.'\n");
+        printf("At this, Sara hangs up the phone.\n"); 
+        printf("You and Anya get out of the car and start shooting.\n");
+        printf("Around twenty minutes after you start shooting, you hear the sound of tires screeching.\n");
+        printf("As you turn around, a force pushes your body forward.\n");
+        printf("Just before the life leaves your body you have a realization that it must be Sara, murdering both you and Anya as revenge.\n"); 
+        death(); }
+    else if (cheat == 0) {
+        printf("You push Anya away and tell her that you're not doing that anymore.");
+        printf("The shoot becomes awkward from there and Anya leaves.\n");
+        singleH();
+        fprintf(file, "You didn't cheat on your girlfriend.\n"); }
     else {
-        printf("\nBy the time you make up your mind it is already too late. You have to go at night.\n");
-        modelHNight(); }
+        printf("You allow Anya to kiss you, but you don't kiss her back.");
+        printf("After about a minute of this, she gets upset. She wants to know why you aren't kissing her back.\n");
+        printf("She starts crying, thinking that you don't find her attractive anymore. She's clearly being overdramatic to make you feel bad.\n");
+        printf("You don't give into her overdramatic antics and she becomes even more upset.\n");
+        printf("She slaps you across the face, exerting a tremenduous amount of force.\n");
+        printf("You're pretty sure she broke your jaw, but, just like before, you don't do anything.");
+        printf("She continues beating on you until you are on the ground, crying. She grabs your camera and throws it across the street.\n");
+        printf("Finally, you get up and do something.\n");
+        printf("You run after your camera, neglecting to look in the street.\n");
+        printf("Just as you pick the camera up, an 18-wheeler smashes into you, killing you on the spot.\n");
+        fprintf(file, "You cheat on your girlfriend.\n");
+        death(); }
+     }
 }
 
 void singleH() {
-    char dorN;
-
-    printf("Do you want to go during the day or the night (n = night; d = day)? ");
-    scanf(" %c", &dorN);
-
-    if (dorN == 'D' || dorN == 'd') {
-        singleHDay(); }
-    else if (dorN == 'N' || dorN == 'n') {
-        singleHNight(); }
+    float combination;
+    
+    printf("You pick up your camera, noticing how beautiful the sunlight reflects off the glass is.\n");
+    printf("You start to take photos of the warehouse and the surroundings.\n");
+    printf("After getting around 100 photos (20 of which were probably salvageable).\n");
+    printf("After a few more minutes of shooting, you get a phone call.\n");
+    printf("It is Sara, do you answer (yes or no)?");
+    scanf(" %s", &yesorno);
+    
+    if (yesorno == "yes") {
+        fprintf(file, "You chose to answer the phone.\n");
+        printf("Sara says that she really appreciates the fact that you are working so hard to provide for her.\n");
+        printf("She says that she wants to surprise you at work and maybe have a picnic at the location.\n");
+        printf("You tell her that you will be working for a while, but you would love it if she stopped by.\n");
+        goodEnding(); }
+    else if (yesorno == "no") {
+        fprintf(file, "You chose to ignore Sara's call.\n");
+        printf("Sara leaves you a voicemail. Do you want to listen to it right now (yes or no)?");
+        scanf(" %s", &yesorno);
+            if (yesorno == "yes") {
+                fprintf(file, "You listened to the voicemail.\n");
+                printf("The message is Sara explaining that she wanted to stop by for a picnic at the warehouse.\n");
+                printf("However, she says that she assumes you are too busy with work to answer so she will just have dinner ready when you get back.\n"); }
+            else if (yesorno == "no") {
+                fprintf(file, "You chose not to listen to Sara's voicemail.\n"); }
+            else {
+                fprintf(file, "You didn't follow instructions. That got you killed.\n");
+                printf("You reach for your phone, but as you grab hold of it a loud noise shatters the silence.\n");
+                printf("You fall to the ground, feeling the metal move inside of you as you fall.\n");
+                printf("You are staring up at the sky when you see a figure step over you.\n");
+                printf("They point a gun at your face and say, 'I think we should see other people.' as she pulls the trigger.\n");
+                death(); }
     else {
-        printf("\nBy the time you make up your mind it is already too late. You have to go at night.\n");
-        singleHNight(); }
+        fprintf(file, "You didn't follow instructions. That got you killed.\n");
+        printf("You answer the phone and hear a man on the other line say, 'Don't move' before a loud blast shatters the silence.\n");
+        printf("The hitman's bullet goes straight through your head and you fall to the ground wondering how he was able to get it to display Sara's contact information.\n");
+        death(); }
+        
+    printf("Suddenly, you see police coming up over the hill. You run to the warehouse entrance and try to get in. There is a padlock on it.\n");
+    printf("On the padlock, the numbers 8, 32, 9, and 4 are scratched out. You assume that this must be the combination.\n");
+    printf("You start turning the dial to different combinations (enter the numbers in the order you think they are. Do not space them out. Enter it as one number.");
+    scanf("%f", &combination);
+    
+    if (combination == 93248) {
+        printf("Congratulations, you guessed the combination. You now enter the warehouse.\n"); }
+    else if (combination != 93248) {
+        while (combination != 93248) {
+        printf("The combination you entered was incorrect. Try again.\n");
+        scanf("%f", &combination); } }
+    else {
+        printf("The numbers you entered were invalid. The police catch you and you go to jail.");
+        caught(); }        
 }
-
-void modelHDay() {
-    printf("SHIT\n"); }
-
-void modelHNight() {
-    printf("TEST\n"); }
-
-void singleHDay() {
-    printf("HELLO\n"); }
-
-void singleHNight() {
-    printf("GOODBYE\n"); }
 
 void home() {
     char yOrN;
@@ -143,14 +217,14 @@ void home() {
                 printf("    'been wasting the last year and a half of my life with someone who doesn't give a shit about me'\n");
                 printf("You attempt to interject, but she cuts you off.\n");
                 printf("    'I thought that photography was all about risk. Taking a big risk for the shot.'\n");
-                printf("    'No wonder you are an amateur. You don't even have the balls to go for a photoshoot.'\n");
+                printf("    'No wonder you are an amateur. You don't even have the guts to go for a photoshoot.'\n");
                 printf("    'That's all you're ever going to be is an amateur.'\n");
                 printf("At this, she reveals that she has been cheating on you for the past month and that she doesn't love you anymore.\n");
                 printf("She says that she is unhappy and doesn't want to be with you anymore.\n"); }
             else if (yOrN == 'n') {
                 printf("\n\nSara spins around at says the following: \n");
-                printf("    'Typical. I don't know why I would have expected you to have the balls to confront me.'\n");
-                printf("    'Especially when you can't even take a fucking picture! You're worthless and pathetic.'\n");
+                printf("    'Typical. I don't know why I would have expected you to have the guts to confront me.'\n");
+                printf("    'Especially when you can't even take a picture! You're worthless and pathetic.'\n");
                 printf("Sara walks out the door after this, leaving you in the apartment all alone.\n");
                 christopher(); }
             else {
@@ -160,20 +234,22 @@ void home() {
 
         else if(yOrN == 'n') {
             printf("\n\nSara says the following: \n");
-            printf("    'You're a shit liar, you know?'\n");
+            printf("    'You're a bad liar, you know?'\n");
             printf("    'Never once in this entire relationship have you gotten away with lying, so why try now?'\n");
             printf("    'You're so transparant that it's actually sad. You will never be able to get away with lying.'\n");
-            printf("    'I saw right through you when you said you didn't sleep with that whore model you were shooting.'\n");
-            printf("    'Jesus, if you're going to bullshit me you should at least be good at it.'\n");
+            printf("    'I saw right through you when you said you didn't sleep with that model you were shooting.'\n");
+            printf("    'If you're going to lie to me you should at least be good at it.'\n");
             printf("After this, Sara walks out and slams the door behind her.");
             printf("A picture of the two of you together falls to the ground and breaks the frame.\n");
 
             christopher(); }
 
         else {
-            printf("\n\nSara stabs you. You die.\n"); } }
+            printf("\n\nSara stabs you. You die.\n"); 
+            death();} }
     else {
-        printf("\n\n\nYour computer explodes. The shrapnel impales you and you die.\n"); }
+        printf("\n\n\nYour computer explodes. The shrapnel impales you and you die.\n"); 
+        death(); }
 }
 
 void christopher() {
@@ -213,7 +289,7 @@ void nighttime() {
         int y=0;
 
         for (x==1; x!=0; y++) {
-            printf("You feel the warm whiskey begin to dumb your senses Do you want to take another shot (1=yes; 0=no)?");
+            printf("You feel the warm whiskey begin to numb your senses. Do you want to take another shot (1=yes; 0=no)?");
             scanf("%d", &x); } }
 
         printf("On the outside, you seem to be cool and collected; but on the inside, fear, anxiety, and panic have completely taken over your soul. You eventually fall alseep, but it past midnight by the time you do.\n");
@@ -224,4 +300,33 @@ void nighttime() {
        
 
 
+}
+
+void death() {
+    printf("You are now dead. Thank you for playing.\n");
+    printf("If you would like to see a list of the decisions you made that led you to this point, please type 'CYOADecisions.txt' into your document search bar.\n");
+    printf("Goodbye. Better luck next time.\n"); 
+    fprintf(file, "You died.\n");
+    fclose(file); }
+    
+void goodEnding() {
+    fprintf(file, "Congratulations. You found the one good ending. You and Sara live happily ever after and your photos are bought at the gallery.\n");
+    printf("Sara arrives about 45 minutes later with a basket and a blanket. The two of you sit down and enjoy a nice dinner.\n");
+    printf("As the sun starts to set, you look over and notice how absolutely breathtaking Sara looks today.\n");
+    printf("At this point, you tell her that you need to go get something from your car.\n");
+    printf("You run back to your car and check your glove compartment. You grab the ring you have been holding onto and decide this is the time.\n");
+    printf("You walk back quietly and set your camera up to take a picture. You quietly adjust the settings to make the shot a perfect silhouette shot.\n");
+    printf("You set a timer to start taking continuous shots and keep the button to the camera in your pocket so you can control it.");
+    printf("You walk back over, get down on one knee and propose to Sara. She says yes and rushes in for a hug and kiss.\n");
+    printf("The photo of you proposing and kissing is perfectly captured.\n");
+    printf("You submit this photo to the gallery and it sells almost immediately.");
+    printf("Congratulations. You managed to beat the game. Good job.\n"); 
+    printf("If you would like to see a list of the decisions you made that led you to this point, please type 'CYOADecisions.txt' into your document search bar.\n");
+    fclose(file); }
+    
+void caught() {
+    fprintf(file, "You were caught. Game over.\n");
+    printf("You were caught by the police. Game over.\n");
+    printf("If you would like to see a list of the decisions you made that led you to this point, please type 'CYOADecisions.txt' into your document search bar.\n");
+    fclose(file);  
 }
