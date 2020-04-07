@@ -1,5 +1,14 @@
+/*
+File: CS 125: Programming Project-Choose Your Own Adventure
+Authors: Daniel Klucsaris, Rajeev Mandalam, & Luke Overfelt
+Version: 1.0.0
+Resources: https://github.com/KLUCSARD/CPROJECT, https://stackoverflow.com/questions/14546018/using-scanf-function-with-pointers-to-character, PowerPoint Slides, and Coggle
+Date Published: April 8th, 2020
+*/
+
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //Functions relating to multiplayer game
 void modelH();
@@ -20,9 +29,14 @@ void death();
 void caught();
 void decentEnding();
 
+
+//Opening a file to place the users decisions into
+FILE *file = fopen("CYOADecisions.txt", "w");
+
 int main() {
-    int risk;
-    int partner;
+    //Variables for decisions
+    int risk, partner;
+    char begin_game;
     
     //Introduction to the game
     printf("The following is a choose-your-own-adventure game.\n");
@@ -33,9 +47,16 @@ int main() {
     printf("        1b. To test how well you are paying attention, we will change up the answering style every once in a while.\n");
     printf("    2. You cannot go back, make sure the decision you make is what you want because it might not be available later\n");
     printf("    3. There are no savepoints. If your character dies, you either restart or stop playing\n\n\n");
-    
-    //Opening a file to place the users decisions into
-    FILE *file = fopen("CYOADecisions.txt", "w");
+    printf("	Are you ready to play the game? (Enter 'Y' or 'N')\n");
+    scanf("%c", &begin_game);
+    if (begin_game != 'Y' || begin_game == 'N') {
+    	printf("Incorrect Response!\n");
+        printf("Since this is your first choice of the game, I will give you a second chance to enter a valid response to the question.\n");
+        printf("You will not get one of these again for the rest of the game.");
+		printf("ARE YOU READY TO PLAY THE GAME?\n");
+	    scanf("%c", &begin_game);
+	    if (begin_game != 'Y' || begin_game != 'N') {
+		    death(); } }
 
     //Explaining the plot and giving the user their first decision
     printf("You are an amateur photographer who has recently found the perfect location for a shoot.\n");
@@ -79,15 +100,15 @@ int main() {
 }
 
 void modelH() {
-    int cheat;
+    float cheat;
     
     printf("\n\n\nYou and Anya set out to the location of the shoot.\n");
     printf("Once you arrive, it seems rather desolate. No cops are around as of now. It's the perfect time to start shooting.\n");
     printf("You exit your car and start setting up your camera to take a few test shots.\n");
-    printf("As you do this, Anya comes over to you and attempts to kiss you. Do you cheat on your girlfriend with Anya (1=yes; 0=no)?");
+    printf("As you do this, Anya comes over to you and attempts to kiss you. Do you cheat on your girlfriend with Anya (1.69=yes; 0.069=no)?");
     scanf("%d", &cheat);
 
-    if (cheat == 1) {
+    if (cheat == 1.69) {
         fprintf(file, "You cheat on your girlfriend.\n");
         printf("\n\nYou allow Anya to start kissing you. In fact, you kiss her back.\n");
         printf("You start to think of Sara. Just as you start to think of her, your phone rings.\n");
@@ -105,7 +126,7 @@ void modelH() {
         printf("As you turn around, a force pushes your body forward.\n");
         printf("Just before the life leaves your body you have a realization that it must be Sara, murdering both you and Anya as revenge.\n"); 
         death(); }
-    else if (cheat == 0) {
+    else if (cheat == 0.069) {
         printf("You push Anya away and tell her that you're not doing that anymore.");
         printf("The shoot becomes awkward from there and Anya leaves.\n");
         singleH();
@@ -188,7 +209,8 @@ void singleH() {
 
 void home() {
     char yOrN;
-
+    
+    fprintf(file, "You chose to go home.\n");
     printf("\n\n\nBack at your apartment you rest on the couch.\n");
     printf("You are searching through your laptop for pictures that could go in the gallery.\n");
     printf("While searching, you notice a picture of your girlfriend taken a while back.\n");
@@ -201,8 +223,10 @@ void home() {
     scanf(" %c", &yOrN); 
 
     if (yOrN == 'y') {
+        fprintf(file, "You chose to use the photos you already had.\n");
         printf("\n\nYou send the photo into PhotoShop to do some work on it to make it gallery ready.\n"); }
     else if (yOrN == 'n') {
+        fprintf(file, "You chose not to use the photos you had.\n");
         printf("\n\nYou close your laptop, feeling defeated and questioning your talent in the field.\n");
         printf("As you do this, you hear keys rattling in the door.\n");
         printf("You quickly open up your laptop to appear as though you are doing work\n");
@@ -213,6 +237,7 @@ void home() {
         
         //Nested if-else statement
         if (yOrN == 'y') {
+            fprintf(file, "You did tell Sara that you did not choose to shoot.\n");
             printf("\n\nSara becomes irritated and passive aggressive about it.\n");
             printf("She scoffs at you, you get up and follow her into the kitchen.\n");
             printf("Placing your arms around her waist, you attempt to kiss her, but she pushes you away.\n");
@@ -221,6 +246,7 @@ void home() {
         
             //Nested if-else statement in a nested if-else
             if (yOrN == 'y') {
+                fprintf(file, "You asked Sara what is wrong.\n");
                 printf("\n\nSara spins around at you and raises her voice. She says the following: \n");
                 printf("    'Nothing is wrong. Nothing at all. Except for the fact that I have apparently'\n");
                 printf("    'been wasting the last year and a half of my life with someone who doesn't care about me'\n");
@@ -231,17 +257,20 @@ void home() {
                 printf("At this, she reveals that she has been cheating on you for the past month and that she doesn't love you anymore.\n");
                 printf("She says that she is unhappy and doesn't want to be with you anymore.\n"); }
             else if (yOrN == 'n') {
-                printf("\n\nSara spins around at says the following: \n");
+                fprintf(file, "You did not ask Sara what is wrong.\n");
+                printf("\n\nSara spins around and says the following: \n");
                 printf("    'Typical. I don't know why I would have expected you to have the guts to confront me.'\n");
                 printf("    'Especially when you can't even take a picture! You're worthless and pathetic.'\n");
                 printf("Sara walks out the door after this, leaving you in the apartment all alone.\n");
                 christopher(); }
             else {
+                fprintf(file, "You did not follow instructions. Sara yells at you.\n");
                 printf("\n\nSara screams at you to stop being so passive. She breaks down saying how much you have made her hate her life.\n");
                 printf("That she dreads coming home to you everyday because you can never give her a straight answer.\n");
                 printf("She says that she has been cheating on you for the past year and breaks up with you."); } }
 
         else if(yOrN == 'n') {
+            fprintf(file, "You lie to Sara.\n");
             printf("\n\nSara says the following: \n");
             printf("    'You're a bad liar, you know?'\n");
             printf("    'Never once in this entire relationship have you gotten away with lying, so why try now?'\n");
@@ -254,12 +283,13 @@ void home() {
             christopher(); }
 
         else {
+            fprintf(file, "You did not follow instructions.");
             printf("\n\nSara stabs you. You die.\n"); 
             death();} }
     else {
+        fprintf(file, "You did not follow instructions.\n");
         printf("\n\n\nYour computer explodes. The shrapnel impales you and you die.\n"); 
-        death(); }
-}
+        death(); } }
 
 void christopher() {
     char door;
@@ -271,41 +301,80 @@ void christopher() {
     scanf(" %c", &door);
 
     if (door == 'y') {
+        fprintf(file, "You opened the door when Christopher knocked.\n");
         printf("You open the door, looking distraught and he yells at you for the money.\n");
         printf("You say you don't have it, but he says that if he doesn't get paid by the end of the week (when the art gallery is) he will evict you.\n");
-        printf("You say okay and promise to have his money by then.\n"); }
+        printf("You say okay and promise to have his money by then.\n"); 
+        nighttime(); }
     else if (door == 'n') {
-        printf("He yells that if he doesn't get his money by the end of the week, he is evicting you.\n"); }
+        fprintf(file, "You did not open the door to Christopher.\n");
+        printf("He yells that if he doesn't get his money by the end of the week, he is evicting you.\n"); 
+        nighttime(); }
     else {
+        fprintf(file, "You did not follow instructions. Christopher evicts you.\n");
         printf("He yells that you are being evicted and that you have an hour to get off the premises.\n");
-        printf("He walks away after this.\n"); }
+        printf("He walks away after this.\n"); 
+        nighttime(); }
 }
 
 void nighttime() {
-    int bar_sleep;
-    printf("\n\n\nDistraught about the revelations regarding Sara's infidelity, and having no way to pay Christopher, you decide that you need to take your mind off of things.\n");
+    int bar_or_sleep, drink_again, take_shot=1, number_of_shots=1, drive_or_walk;  
+    char your_drink;
+    printf("\n\nDistraught about the revelations regarding Sara's infidelity, and having no way to pay Christopher, you decide that you need to take your mind off of things.\n");
     printf("How do you approach the situation? Will you go to bed, or go to the bar to get a few drinks? (1 = go to bed, 0 = go to bar)\n");
-    
-    if (bar_sleep == 1) {
+
+    if (bar_or_sleep == 1) {
+        fprintf(file, "You chose to go to bed.\n");
         printf("You heat up some tea and go to your bed to drink it slowly before going to sleep.\n");
         printf("As you are sipping, you contemplate how you will be able to get the money to Christopher in the next few days.\n");
-        printf("You fear the worst-case scenario, with Christopher kicking you out and Sara dumping you.\n"); 
-        printf("You start to shed a tear thinking about Sara, and all of the memories that you have made with her throughout the time you both have been together.\n"); 
-        printf("All of those times you both had stability, comfort, and fun. However, all of that could very well be gone in the next 24 hours if you do not accomplish your mission.\n");
+        printf("You fear the worst-case scenario, with Christopher kicking you out and Sara dumping you.\n");
+        printf("You start to shed a tear thinking about Sara, and all of the memories that you have made with her throughout the time you both have been together.\n");
+        printf("All of those times you both had stability, comfort, and fun.\n");
+		printf("However, all of that could very well be gone in the next 24 hours if you do not accomplish your mission.\n");
         printf("You try to go to sleep after finishing your tea, but a terrible image of your dead body lying in front of your apartment door keeps you awake for a while.\n");
-        printf("You decide to take a shot of whiskey in hopes of it helping you fall asleep.\n");
-        int x=1;
-        int y=0;
-
-        for (x==1; x!=0; y++) {
-            printf("You feel the warm whiskey begin to numb your senses. Do you want to take another shot (1=yes; 0=no)?");
-            scanf("%d", &x); } }
-
-        printf("On the outside, you seem to be cool and collected; but on the inside, fear, anxiety, and panic have completely taken over your soul. You eventually fall alseep, but it past midnight by the time you do.\n");
-    }
+        printf("On the outside, you seem to be cool and collected; but on the inside, fear, anxiety, and panic have completely taken over your soul.\n");
+        printf("You eventually fall alseep, but it past midnight by the time you do.\n"); }
     else {
-        printf(""); }      
-}
+        fprintf(file, "You chose to go to the bar.\n");
+        printf("You get in your car and you drive to the nearest bar.\n");
+        printf("You are still bothered by the fight you just had with Sara, but you hope that you can wash it off with a few drinks.\n");
+        printf("The bartender asks you what you want. What do you choose?\n");
+        scanf("%c", &your_drink);
+        printf("You start to sip your %c, and you feel a sense of frustration at the thought of a life without your girlfriend and your 
+		apartment. You want this moment to wash away forever. You gradually start to fall into the pit of madness.\n", your_drink);
+        for (take_shot==1; take_shot!=0; number_of_shots++) {
+            printf("Do you want to take another shot (1=yes; 0=no)?");
+            scanf("%d", &take_shot);
+            if (number_of_shots >= 15) {
+                printf("Everybody at the bar notices how intoxicated you are as you yell at the bartender for your 15th shot.\n");
+                printf("Your face is full of sweat, you're numb of all senses, and you have completely submerged into a state of insanity.\n");
+                printf("The bartender refuses to adheer to your demand, but you keep screaming at him to give it to you.\n");
+                printf("Then, the bouncer grabs you by the collar, and throws you out.\n");
+                printf("You are on the ground continuing to hallucinate.\n");
+                printf("As you lie there, covered in mud and grime, you never would have thought that alcohol poisoning would be the way you go.\n");
+                printf("Suddenly, you fall into a deep sleep, and never wake up again. You die.\n"); }
+            else if (number_of_shots >= 5 && number_of_shots < 15) {
+	            printf("As you decide to leave the bar, you are struck with the decision of getting in your car and driving home or walking home.\n");
+                printf("You know you had a little more than you should have and driving may not be the best option but it is very late and walking home could be dangerous.\n");
+                printf("What do you do? 1 = car, 0 = walk\n");
+                scanf("%d", &drive_or_walk);
+                
+                //Nested if-else statement
+                if (drive_or_walk == 1) {
+                    fprintf(file, "You chose to drive drunk.\n");
+                    printf("You get into your car and make the poor choice of driving./n");
+                    printf("You make it around the corner and you start thinking of Sara and what you could have said.\n");
+                    printf("You suddenly look up and see a tree 10ft ahead.\n");
+                    printf("Without enough time to turn out of the way, you crash into the tree and go through the windshield because you forgot to put your seatbelt on.\n");
+                    printf("You die.\n"); 
+                    death(); }
+                else if (drive_or_walk == 0) {
+                    fprintf("file, "You chose not to drive drunk.\n");
+                    printf("You begin the walk home.\n");
+                    printf("While on the way home you contemplate how you could have handled things better with Sara and how you can make things right and move forward.\n");
+                    printf("While walking home, you fall into the street in front of an oncoming 18-wheeler.\n"); 
+                    death(); }
+          printf("You took %d shots.", number_of_shots); } } } } }
 
 void warehouse() {
     printf("You enter the warehouse and immediately notice how dark it is. Not only are the windows not letting the light in, but the darkness doesn't seem to be leaving.\n");
